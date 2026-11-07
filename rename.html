@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doi ten file hang loat</title>
+  <style>
+    :root {
+      --blue: #1261A0;
+      --blue-dark: #0d4d80;
+      --orange: #E69B24;
+      --green: #168447;
+      --green-dark: #126b39;
+      --bg: #F2F5F9;
+      --card: #ffffff;
+      --text: #1a2332;
+      --muted: #5c6b7a;
+      --border: #d8e0ea;
+      --danger: #c0392b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--blue) 0%, #1a7cc4 100%);
+      color: #fff;
+      padding: 22px 24px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(18, 97, 160, 0.25);
+    }
+
+    header h1 {
+      font-size: 22px;
+      letter-spacing: 0.4px;
+    }
+
+    header p {
+      margin-top: 6px;
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 22px 16px 40px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    }
+
+    .card h2 {
+      font-size: 14px;
+      color: var(--blue);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: flex-end;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .field label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select {
+      height: 40px;
+      padding: 0 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+      background: #fff;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(18, 97, 160, 0.12);
+    }
+
+    .btn {
+      height: 40px;
+      padding: 0 16px;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #fff;
+      white-space: nowrap;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-blue { background: var(--blue); }
+    .btn-blue:hover:not(:disabled) { background: var(--blue-dark); }
+    .btn-orange { background: var(--orange); }
+    .btn-green { background: var(--green); font-size: 15px; height: 46px; padding: 0 28px; }
+    .btn-green:hover:not(:disabled) { background: var(--green-dark); }
+    .btn-ghost {
+      background: #eef3f8;
+      color: var(--blue);
+    }
+
+    .path {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 10px;
+      word-break: break-all;
+    }
+
+    .hint {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+
+    .example {
+      margin-top: 10px;
+      padding: 10px 12px;
+      background: #eef6fc;
+      border-left: 4px solid var(--blue);
+      border-radius: 6px;
+      font-size: 13px;
+    }
+
+    .example strong { color: var(--blue); }
+
+    .stats {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--blue);
+      margin-bottom: 10px;
+    }
+
+    .table-wrap {
+      overflow: auto;
+      max-height: 420px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      background: var(--blue);
+      color: #fff;
+      text-align: left;
+      padding: 10px 12px;
+      font-size: 12px;
+    }
+
+    td {
+      padding: 8px 12px;
+      border-bottom: 1px solid #eef2f6;
+      vertical-align: middle;
+    }
+
+    tr:nth-child(even) td { background: #f8fafc; }
+
+    .st {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .st-ok { background: #e3f6ea; color: var(--green); }
+    .st-same { background: #eef2f6; color: var(--muted); }
+    .st-err { background: #fdecea; color: var(--danger); }
+
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .toast {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      max-width: 420px;
+      background: #1a2332;
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      display: none;
+      z-index: 20;
+    }
+
+    .toast.show { display: block; }
+    .toast.err { background: var(--danger); }
+    .toast.ok { background: var(--green); }
+
+    .hidden { display: none !important; }
+
+    .check {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text);
+      height: 40px;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      padding-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>DOI TEN FILE HANG LOAT</h1>
+    <p>Quet thu muc, nhap tien to, hau to tu dong 1, 2, 3...</p>
+  </header>
+
+  <div class="wrap">
+    <div class="card">
+      <h2>1. Chon thu muc</h2>
+      <div class="row">
+        <button class="btn btn-orange" id="btnPick" type="button">QUET THU MUC</button>
+        <button class="btn btn-ghost" id="btnFallback" type="button">Chon bang o nhap file</button>
+        <input class="hidden" id="dirInput" type="file" webkitdirectory multiple>
+      </div>
+      <div class="path" id="folderLabel">Chua chon thu muc</div>
+      <div class="hint">Chrome / Edge: doi ten truc tiep trong thu muc. Trinh duyet khac: tai file da doi ten (ZIP).</div>
+    </div>
+
+    <div class="card">
+      <h2>2. Dat ten moi</h2>
+      <div class="row">
+        <div class="field" style="flex: 2;">
+          <label for="prefix">Tien to ten file</label>
+          <input id="prefix" type="text" placeholder="Vi du: DAT-HIEUNTM-001" value="DAT-HIEUNTM-001">
+        </div>
+        <div class="field">
+          <label for="startNum">Bat dau tu</label>
+          <input id="startNum" type="number" min="1" value="1">
+        </div>
+        <div class="field">
+          <label for="pad">So chu so (0 = khong)</label>
+          <input id="pad" type="number" min="0" max="8" value="0">
+        </div>
+        <div class="field">
+          <label for="sep">Ky tu noi</label>
+          <input id="sep" type="text" maxlength="3" value="-">
+        </div>
+      </div>
+      <div class="row" style="margin-top: 12px;">
+        <label class="check">
+          <input type="checkbox" id="onlyImages">
+          Chi lay file anh
+        </label>
+        <label class="check">
+          <input type="checkbox" id="keepExt" checked>
+          Giu phan mo rong goc
+        </label>
+        <button class="btn btn-blue" id="btnPreview" type="button">XEM TRUOC</button>
+      </div>
+      <div class="example" id="exampleBox">
+        Ten moi se la: <strong>DAT-HIEUNTM-001-1.jpg</strong>, <strong>DAT-HIEUNTM-001-2.jpg</strong>, ...
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>3. Danh sach doi ten</h2>
+      <div class="stats" id="stats">Tong so file: 0</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 56px;">STT</th>
+              <th>Ten hien tai</th>
+              <th>Ten moi</th>
+              <th style="width: 140px;">Trang thai</th>
+            </tr>
+          </thead>
+          <tbody id="tbody">
+            <tr><td colspan="4" style="text-align:center;color:#5c6b7a;">Chua co du lieu. Hay quet thu muc.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="actions">
+        <div class="hint" id="modeHint">Chua san sang doi ten.</div>
+        <button class="btn btn-green" id="btnRename" type="button" disabled>XAC NHAN DOI TEN TAT CA FILE</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>Doi ten theo tien to + so thu tu. File duoc xu ly theo thu tu ten A-Z.</footer>
+  <div class="toast" id="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script>
+    const IMAGE_EXT = new Set([".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tif", ".tiff", ".webp"]);
+    const INVALID = /[<>:"/\\|?*\u0000-\u001f]/;
+
+    let dirHandle = null;
+    let files = [];
+    let plan = [];
+    let mode = "none";
+
+    const $ = (id) => document.getElementById(id);
+
+    function toast(msg, type) {
+      const el = $("toast");
+      el.textContent = msg;
+      el.className = "toast show " + (type || "");
+      setTimeout(() => el.classList.remove("show"), 4200);
+    }
+
+    function extOf(name) {
+      const i = name.lastIndexOf(".");
+      return i > 0 ? name.slice(i).toLowerCase() : "";
+    }
+
+    function baseOf(name) {
+      const i = name.lastIndexOf(".");
+      return i > 0 ? name.slice(0, i) : name;
+    }
+
+    function padNum(n, width) {
+      const s = String(n);
+      return width > 0 ? s.padStart(width, "0") : s;
+    }
+
+    function updateExample() {
+      const prefix = $("prefix").value.trim() || "DAT-HIEUNTM-001";
+      const sep = $("sep").value;
+      const start = Math.max(1, parseInt($("startNum").value, 10) || 1);
+      const pad = Math.max(0, parseInt($("pad").value, 10) || 0);
+      const a = prefix + sep + padNum(start, pad);
+      const b = prefix + sep + padNum(start + 1, pad);
+      $("exampleBox").innerHTML =
+        "Ten moi se la: <strong>" + a + ".jpg</strong>, <strong>" + b + ".jpg</strong>, ...";
+    }
+
+    ["prefix", "startNum", "pad", "sep"].forEach((id) => {
+      $(id).addEventListener("input", () => {
+        updateExample();
+        if (files.length) buildPreview();
+      });
+    });
+    $("onlyImages").addEventListener("change", () => {
+      if (files.length) buildPreview();
+    });
+
+    async function collectFromHandle(handle, prefix) {
+      const out = [];
+      for await (const [name, child] of handle.entries()) {
+        const rel = prefix ? prefix + "/" + name : name;
+        if (child.kind === "file") {
+          const file = await child.getFile();
+          out.push({
+            name,
+            rel,
+            file,
+            handle: child,
+            parent: handle
+          });
+        } else if (child.kind === "directory") {
+          const nested = await collectFromHandle(child, rel);
+          out.push(...nested);
+        }
+      }
+      return out;
+    }
+
+    async function pickFolder() {
+      if (!window.showDirectoryPicker) {
+        $("dirInput").click();
+        return;
+      }
+      try {
+        dirHandle = await window.showDirectoryPicker({ mode: "readwrite" });
+        const list = await collectFromHandle(dirHandle, "");
+        files = list.sort((a, b) => a.rel.localeCompare(b.rel, undefined, { numeric: true, sensitivity: "base" }));
+        mode = "fs";
+        $("folderLabel").textContent = "Thu muc: " + dirHandle.name + " (" + files.length + " file)";
+        $("modeHint").textContent = "Che do: doi ten truc tiep trong thu muc da chon.";
+        buildPreview();
+      } catch (err) {
+        if (err && err.name !== "AbortError") toast("Khong mo duoc thu muc: " + err.message, "err");
+      }
+    }
+
+    function pickFallback() {
+      $("dirInput").click();
+    }
+
+    $("dirInput").addEventListener("change", (e) => {
+      const list = Array.from(e.target.files || []);
+      files = list.map((file) => ({
+        name: file.name,
+        rel: file.webkitRelativePath || file.name,
+        file,
+        handle: null,
+        parent: null
+      })).sort((a, b) => a.rel.localeCompare(b.rel, undefined, { numeric: true, sensitivity: "base" }));
+      dirHandle = null;
+      mode = "zip";
+      const root = files[0] ? files[0].rel.split("/")[0] : "";
+      $("folderLabel").textContent = "Thu muc: " + (root || "(da chon)") + " (" + files.length + " file)";
+      $("modeHint").textContent = "Che do: tai ZIP cac file da doi ten (trinh duyet khong ho tro doi ten truc tiep).";
+      buildPreview();
+    });
+
+    function buildPreview() {
+      const prefix = $("prefix").value.trim();
+      const sep = $("sep").value;
+      const start = Math.max(1, parseInt($("startNum").value, 10) || 1);
+      const pad = Math.max(0, parseInt($("pad").value, 10) || 0);
+      const onlyImg = $("onlyImages").checked;
+      const keepExt = $("keepExt").checked;
+
+      plan = [];
+      const used = new Set();
+      let n = start;
+      let errors = 0;
+
+      const source = files.filter((f) => {
+        if (onlyImg && !IMAGE_EXT.has(extOf(f.name))) return false;
+        if (f.name.startsWith(".")) return false;
+        return true;
+      });
+
+      source.forEach((f, idx) => {
+        const oldExt = extOf(f.name);
+        let newName = prefix + sep + padNum(n, pad);
+        if (keepExt && oldExt) newName += oldExt;
+        n += 1;
+
+        let status = "San sang";
+        let ok = true;
+
+        if (!prefix) {
+          status = "Thieu tien to";
+          ok = false;
+        } else if (INVALID.test(newName) || newName === "." || newName === "..") {
+          status = "Ten moi khong hop le";
+          ok = false;
+        } else if (used.has(newName.toLowerCase())) {
+          status = "Ten moi bi trung";
+          ok = false;
+        }
+
+        if (f.name === newName) status = "Khong thay doi";
+        used.add(newName.toLowerCase());
+        if (!ok) errors += 1;
+
+        plan.push({
+          old: f.rel,
+          oldName: f.name,
+          newName,
+          status,
+          ok,
+          file: f.file,
+          handle: f.handle,
+          parent: f.parent
+        });
+      });
+
+      const tbody = $("tbody");
+      if (!plan.length) {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#5c6b7a;">Khong co file hop le.</td></tr>';
+        $("stats").textContent = "Tong so file: 0";
+        $("btnRename").disabled = true;
+        return;
+      }
+
+      tbody.innerHTML = plan.map((item, i) => {
+        const cls = !item.ok ? "st-err" : (item.oldName === item.newName ? "st-same" : "st-ok");
+        return "<tr>" +
+          "<td>" + (i + 1) + "</td>" +
+          "<td>" + escapeHtml(item.old) + "</td>" +
+          "<td>" + escapeHtml(item.newName) + "</td>" +
+          "<td><span class='st " + cls + "'>" + item.status + "</span></td>" +
+          "</tr>";
+      }).join("");
+
+      $("stats").textContent = "Tong so file: " + plan.length + " | Loi: " + errors;
+      const ready = plan.filter((p) => p.ok && p.oldName !== p.newName).length;
+      $("btnRename").disabled = ready === 0 || errors > 0;
+    }
+
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    async function renameDirect() {
+      const changed = plan.filter((p) => p.ok && p.oldName !== p.newName);
+      if (!changed.length) return;
+
+      if (!confirm("Ban se doi ten " + changed.length + " file trong thu muc.\nTiep tuc?")) return;
+
+      const staged = [];
+      try {
+        for (const item of changed) {
+          const buf = await item.file.arrayBuffer();
+          const tmp = ".rename_" + crypto.randomUUID() + ".tmp";
+          const tmpHandle = await item.parent.getFileHandle(tmp, { create: true });
+          const w = await tmpHandle.createWritable();
+          await w.write(buf);
+          await w.close();
+          staged.push({ item, tmp, buf });
+        }
+
+        for (const s of staged) {
+          await s.item.parent.removeEntry(s.item.oldName);
+        }
+
+        for (const s of staged) {
+          const nh = await s.item.parent.getFileHandle(s.item.newName, { create: true });
+          const w = await nh.createWritable();
+          await w.write(s.buf);
+          await w.close();
+          await s.item.parent.removeEntry(s.tmp);
+        }
+
+        toast("Da doi ten thanh cong " + changed.length + " file.", "ok");
+        const list = await collectFromHandle(dirHandle, "");
+        files = list.sort((a, b) => a.rel.localeCompare(b.rel, undefined, { numeric: true, sensitivity: "base" }));
+        $("folderLabel").textContent = "Thu muc: " + dirHandle.name + " (" + files.length + " file)";
+        buildPreview();
+      } catch (err) {
+        toast("Doi ten that bai: " + err.message, "err");
+      }
+    }
+
+    async function downloadZip() {
+      const changed = plan.filter((p) => p.ok);
+      if (!changed.length) return;
+      if (typeof JSZip === "undefined") {
+        toast("Khong tai duoc thu vien ZIP.", "err");
+        return;
+      }
+      if (!confirm("Trinh duyet khong doi ten truc tiep. Tai ZIP " + changed.length + " file da doi ten?")) return;
+
+      const zip = new JSZip();
+      for (const item of changed) {
+        const buf = await item.file.arrayBuffer();
+        const folder = item.old.includes("/") ? item.old.slice(0, item.old.lastIndexOf("/")) : "";
+        const path = folder ? folder + "/" + item.newName : item.newName;
+        zip.file(path, buf);
+      }
+      const blob = await zip.generateAsync({ type: "blob" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "files-renamed.zip";
+      a.click();
+      URL.revokeObjectURL(a.href);
+      toast("Da tai file ZIP ten moi.", "ok");
+    }
+
+    $("btnPick").addEventListener("click", pickFolder);
+    $("btnFallback").addEventListener("click", pickFallback);
+    $("btnPreview").addEventListener("click", () => {
+      if (!files.length) {
+        toast("Hay chon thu muc truoc.", "err");
+        return;
+      }
+      buildPreview();
+    });
+    $("btnRename").addEventListener("click", () => {
+      if (mode === "fs") renameDirect();
+      else downloadZip();
+    });
+
+    updateExample();
+  </script>
+</body>
+</html>
